@@ -20,7 +20,7 @@ const SECRET = "@askdasklF!@#123dnasdnkas";
 const multer = require("multer");
 
 let corsOptions = {
-  origin: "https://sub.ybyblog.com",
+  origin: "http://sub.ybyblog.com",
   credentials: true,
 };
 
