@@ -47,10 +47,10 @@ var deployType = `${process.env.DEPLOY_TYPE}`;
 var url = "localhost";
 var port = "8080";
 
-if (deployType !== "DEV") {
-  url = "sub.ybyblog.com";
-  port = "80";
-}
+// if (deployType !== "DEV") {
+//   url = "sub.ybyblog.com";
+//   port = "80";
+// }
 
 app.get("/", (req, res) => {
   res.send(`Server is Running! http://${url}:${port}`);
