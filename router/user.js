@@ -40,12 +40,12 @@ router.post("/user/login", async (req, res) => {
     }
   );
   res.send({
-    email: loginUser.email,
-    nickname: loginUser.nickname,
-    authYn: loginUser.authYn,
-    token: token,
-    error: false,
-    msg: "로그인 성공",
+    data: {
+      userName: loginUser.nickname,
+      authorization: token,
+      error: false,
+      msg: "로그인 성공",
+    },
   });
 });
 
@@ -71,14 +71,17 @@ router.get("/user/token", (req, res) => {
   }
   const token = authorization.split(" ")[1];
   const secret = req.app.get("jwt-secret");
+
   jwt.verify(token, secret, (err, data) => {
     if (err) {
       res.send(err);
     }
     res.send({
-      email: data.email,
-      nickname: data.nickname,
-      authYn: data.authYn,
+      data: {
+        accessToken: token,
+        userName: data.nickname,
+        authYn: data.authYn,
+      },
     });
   });
 });

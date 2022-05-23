@@ -16,15 +16,7 @@ const {
 const app = express();
 const SECRET = "@askdasklF!@#123dnasdnkas";
 
-//파일업로드 Multipart/form-data
-const multer = require("multer");
-
-let corsOptions = {
-  origin: "http://sub.ybyblog.com",
-  credentials: true,
-};
-
-app.use(cors(corsOptions));
+app.use(cors());
 
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
@@ -45,16 +37,12 @@ app.use(formidable());
 
 var deployType = `${process.env.DEPLOY_TYPE}`;
 var url = "localhost";
-var port = "8080";
+var port = "8001";
 
 // if (deployType !== "DEV") {
 //   url = "sub.ybyblog.com";
 //   port = "80";
 // }
-
-app.get("/", (req, res) => {
-  res.send(`Server is Running! http://${url}:${port}`);
-});
 
 app.listen(port, url, () => {
   console.log(`App listening at http://${url}:${port}`);
