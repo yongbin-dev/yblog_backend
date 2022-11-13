@@ -3,15 +3,30 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const { Article, Comment, Reply } = require("../mongoose/model");
 
+
+// 게시글 전체조회
+router.get("/article", async (req, res) => {
+  const { id  } = req.body;
+  const articleList = await Article.find({
+    // _id: id,
+  });
+
+  return res.send({
+    article : articleList,
+  });
+});
+
 // 개별 게시글 가져오는 라우트
 router.get("/article/:key", async (req, res) => {
   const { key } = req.params;
-  const article = await Article.findOne({ key: key })
+  
+  const article = await Article.findOne({ _id : key })
     .populate("board")
     .populate({
       path: "author",
       populate: { path: "company" },
     });
+
 
   const commentList = await Comment.find({ article: article._id }).populate({
     path: "author",
