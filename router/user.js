@@ -8,18 +8,23 @@ router.post("/user/login", async (req, res) => {
   const { email, password } = req.body;
   const loginUser = await User.findOne({ email: email });
 
+  
   if (!loginUser) {
     return res.send({
-      error: true,
-      msg: "존재하지 않는 이메일",
+      data : {
+        error: true,
+        msg: "존재하지 않는 이메일",
+      }
     });
   }
 
   const correctPassword = await loginUser.authenticate(password);
   if (!correctPassword) {
     return res.send({
-      error: true,
-      msg: "비밀번호 불일치",
+      data: {
+        error: true,
+        msg: "비밀번호 불일치",
+      }
     });
   }
 
