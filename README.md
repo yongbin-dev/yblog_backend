@@ -7,15 +7,18 @@
 - 게시글 쓰기 기능 구현
 
 ## 사용기술
-- NodeJS
-- MongoDB
-- Javascript/TypeScript
-- React
+
+### BackEnd
+- NodeJS , MongoDB
+
+### FrontEnd
+- Javascript , TypeScript , React , HTML/CSS , tailwindCSS
+
+### Etc 
 - AWS EC2 , S3 , CloudFront 
 - Nginx 
 - Jenkins
-
-
+  
 ## 화면 
 
 ![intro](./docs/intro.png)
