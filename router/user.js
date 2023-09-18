@@ -8,18 +8,23 @@ router.post("/user/login", async (req, res) => {
   const { email, password } = req.body;
   const loginUser = await User.findOne({ email: email });
 
+  
   if (!loginUser) {
     return res.send({
-      error: true,
-      msg: "존재하지 않는 이메일",
+      data : {
+        error: true,
+        msg: "존재하지 않는 이메일",
+      }
     });
   }
 
   const correctPassword = await loginUser.authenticate(password);
   if (!correctPassword) {
     return res.send({
-      error: true,
-      msg: "비밀번호 불일치",
+      data: {
+        error: true,
+        msg: "비밀번호 불일치",
+      }
     });
   }
 
@@ -40,24 +45,27 @@ router.post("/user/login", async (req, res) => {
     }
   );
   res.send({
-    email: loginUser.email,
-    nickname: loginUser.nickname,
-    authYn: loginUser.authYn,
-    token: token,
-    error: false,
-    msg: "로그인 성공",
+    data: {
+      userName: loginUser.nickname,
+      authorization: token,
+      error: false,
+      msg: "로그인 성공",
+    },
   });
 });
 
 // 사용자 추가
 router.post("/user/create", async (req, res) => {
-  const { nickname, company, email, password } = req.body;
+  const { nickname, company, email, password , authYn } = req.body;
+
+  const auth = authYn ? 'Y' : 'N';
 
   const newUser = await User({
     email,
     nickname,
     password,
     company,
+    auth
   }).save();
 
   res.send(newUser._id ? true : false);
@@ -71,14 +79,17 @@ router.get("/user/token", (req, res) => {
   }
   const token = authorization.split(" ")[1];
   const secret = req.app.get("jwt-secret");
+
   jwt.verify(token, secret, (err, data) => {
     if (err) {
       res.send(err);
     }
     res.send({
-      email: data.email,
-      nickname: data.nickname,
-      authYn: data.authYn,
+      data: {
+        accessToken: token,
+        userName: data.nickname,
+        authYn: data.authYn,
+      },
     });
   });
 });
